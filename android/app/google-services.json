@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "351322982828",
+    "project_id": "handong-software-engineering",
+    "storage_bucket": "handong-software-engineering.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351322982828:android:0cc514b30595d867835209",
+        "android_client_info": {
+          "package_name": "com.example.software_engineering"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351322982828-ictmvm3j88d6gd1mb15l9rjdebhjn488.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcz7GynYeipOxMnAdWDtOMnoHM5ndvr9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351322982828-ictmvm3j88d6gd1mb15l9rjdebhjn488.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
