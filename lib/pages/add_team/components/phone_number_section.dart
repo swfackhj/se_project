@@ -32,11 +32,16 @@ class PhoneNumberSection extends StatelessWidget {
               width: phoneSize.width * 0.025,
             ),
             SizedBox(
-                width: phoneSize.width * 0.15,
-                child: TextField(
-                  controller: addTeamController.middleNumberController,
-                  textAlign: TextAlign.center,
-                )),
+              width: phoneSize.width * 0.15,
+              height: phoneSize.height * 0.05,
+              child: TextField(
+                controller: addTeamController.middleNumberController,
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0)),
+              ),
+            ),
             SizedBox(
               width: phoneSize.width * 0.025,
             ),
@@ -45,11 +50,16 @@ class PhoneNumberSection extends StatelessWidget {
               width: phoneSize.width * 0.025,
             ),
             SizedBox(
-                width: phoneSize.width * 0.15,
-                child: TextField(
-                  controller: addTeamController.endNumberController,
-                  textAlign: TextAlign.center,
-                )),
+              width: phoneSize.width * 0.15,
+              height: phoneSize.height * 0.05,
+              child: TextField(
+                controller: addTeamController.endNumberController,
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0)),
+              ),
+            ),
           ],
         )
       ],

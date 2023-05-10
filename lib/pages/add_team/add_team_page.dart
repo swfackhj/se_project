@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/pages/add_team/components/equipment_section.dart';
-import 'package:software_engineering/pages/add_team/components/gender_section.dart';
-import 'package:software_engineering/pages/add_team/components/mercenary_section.dart';
+import 'package:software_engineering/pages/add_team/components/member_section.dart';
 import 'package:software_engineering/pages/add_team/components/phone_number_section.dart';
 import 'package:software_engineering/pages/add_team/components/place_section.dart';
 import 'package:software_engineering/pages/add_team/components/team_name_section.dart';
@@ -38,8 +38,6 @@ class AddTeamPage extends StatelessWidget {
               children: [
                 Column(children: [
                   TeamNameSection(),
-                  SizedBox(height: phoneSize.height * 0.05),
-                  GenderSection(),
                   SizedBox(height: phoneSize.height * 0.015),
                   PlaceSection(),
                   SizedBox(height: phoneSize.height * 0.015),
@@ -47,22 +45,32 @@ class AddTeamPage extends StatelessWidget {
                   SizedBox(height: phoneSize.height * 0.015),
                   EquipmentSection(),
                   SizedBox(height: phoneSize.height * 0.015),
-                  MercenarySection(),
+                  MemberSection(),
                 ]),
                 ElevatedButton(
                     onPressed: () async {
-                      FirebaseFirestore.instance.collection('team').add({
+                      String docID = FirebaseFirestore.instance
+                          .collection('team')
+                          .doc()
+                          .id;
+                      addTeamController.membersUid
+                          .add(FirebaseAuth.instance.currentUser!.uid);
+                      FirebaseFirestore.instance
+                          .collection('team')
+                          .doc(docID)
+                          .set({
                         'teamName': addTeamController.teamNameController.text,
-                        'gender': addTeamController.gender,
                         'place': addTeamController.place,
                         'phoneNumber':
                             '010${addTeamController.middleNumberController.text}${addTeamController.endNumberController.text}',
                         'haveBall': addTeamController.haveBall,
                         'haveVest': addTeamController.haveVest,
-                        'isMercenary': addTeamController.isMercenary,
                         'createTime': DateTime.now(),
+                        'members': addTeamController.membersUid,
+                        'leaderUid': FirebaseAuth.instance.currentUser?.uid,
+                        'docID': docID,
+                        'image': null,
                       });
-                      print(addTeamController.teamNameController.text);
                       Get.back();
                     },
                     style:

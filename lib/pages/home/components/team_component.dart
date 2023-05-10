@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/utils/styles.dart';
 
-class MercenaryModel extends StatelessWidget {
-  MercenaryModel(
+class TeamComponent extends StatelessWidget {
+  TeamComponent(
       {super.key,
       required this.title,
       required this.editor,
@@ -73,7 +73,7 @@ class MercenaryModel extends StatelessWidget {
                 Row(
                   children: [
                     const Icon(Icons.person),
-                    Text('$members/6'),
+                    Text('$members / 6'),
                   ],
                 ),
                 Row(

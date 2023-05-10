@@ -10,21 +10,12 @@ class LogInController extends GetxController {
   Future<void> signInWithEmail(String email, String password) async {
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((userCredential) async {
-        if (FirebaseAuth.instance.currentUser!.emailVerified) {
-          print('verified');
-        } else {
-          await FirebaseAuth.instance.signOut();
-          errorDialog('인증되지 않은 메일입니다.');
-        }
-      });
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
         case 'user-not-found':
           return errorDialog('존재하지 않는 계정입니다.');
       }
-      print(error.code);
     }
   }
 

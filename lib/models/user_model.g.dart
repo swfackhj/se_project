@@ -6,6 +6,7 @@ part of 'user_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+// ignore: non_constant_identifier_names
 _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       eamil: json['eamil'] as String,
       password: json['password'] as String,
@@ -15,6 +16,7 @@ _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       emailVerified: json['emailVerified'] as String,
     );
 
+// ignore: non_constant_identifier_names
 Map<String, dynamic> _$$_UserModelToJson(_$_UserModel instance) =>
     <String, dynamic>{
       'eamil': instance.eamil,

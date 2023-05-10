@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:software_engineering/pages/add_mercenary/add_mercenary_page.dart';
 import 'package:software_engineering/pages/home/controller/home_controller.dart';
-import 'package:software_engineering/pages/home/models/mercenary_model.dart';
+import 'package:software_engineering/pages/mercenary/components/mercenary_component.dart';
 import 'package:software_engineering/utils/paddings.dart';
 import 'package:software_engineering/utils/sizes.dart';
 import 'package:software_engineering/utils/styles.dart';
@@ -29,9 +29,8 @@ class _MercenaryPageState extends State<MercenaryPage> {
         backgroundColor: Colors.black,
         title: const Text(
           '밀덕',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+          style: appBarTitileStyle,
         ),
-        centerTitle: false,
       ),
       body: SafeArea(
         child: Padding(
@@ -49,7 +48,7 @@ class _MercenaryPageState extends State<MercenaryPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('오늘의 용병', style: titleStyle),
-                      SizedBox(height: phoneSize.height * 0.01),
+                      SizedBox(height: phoneSize.height * 0.025),
                       GridView.builder(
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -58,7 +57,7 @@ class _MercenaryPageState extends State<MercenaryPage> {
                             childAspectRatio: 2.5),
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index) {
-                          return MercenaryModel(
+                          return MercenaryComponent(
                               title: docs?[index]['title'],
                               editor: docs?[index]['editor'],
                               phoneNumber: docs?[index]['phoneNumber'],
