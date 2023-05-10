@@ -26,7 +26,6 @@ class MatchContorller extends GetxController {
         combination.add(temp);
       }
     });
-
     super.onInit();
   }
 }

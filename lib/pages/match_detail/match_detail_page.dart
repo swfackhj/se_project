@@ -122,13 +122,39 @@ class MatchDetailPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    plusIcon(),
+                                    GestureDetector(
+                                        onTap: () => matchDetailController
+                                            .addScore(index, 0),
+                                        child: plusIcon()),
                                     SizedBox(width: phoneSize.width * 0.015),
                                     Text(teamName1),
                                     SizedBox(width: phoneSize.width * 0.015),
-                                    minusIcon(),
+                                    GestureDetector(
+                                        onTap: () => matchDetailController
+                                            .minusScore(index, 0),
+                                        child: minusIcon()),
                                   ],
                                 ),
+                                index <=
+                                            matchDetailController
+                                                    .scores.length -
+                                                1 &&
+                                        matchDetailController.scores[index]
+                                                [0] !=
+                                            matchDetailController.scores[index]
+                                                [1]
+                                    ? matchDetailController.scores[index][0] <
+                                            matchDetailController.scores[index]
+                                                [1]
+                                        ? const Text('L',
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold))
+                                        : const Text('W',
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold))
+                                    : Container(),
                                 index <= matchDetailController.scores.length - 1
                                     ? Text(
                                         '${matchDetailController.scores[0][0]}')
@@ -142,13 +168,39 @@ class MatchDetailPage extends StatelessWidget {
                                     ? Text(
                                         '${matchDetailController.scores[0][1]}')
                                     : Container(),
+                                index <=
+                                            matchDetailController
+                                                    .scores.length -
+                                                1 &&
+                                        matchDetailController.scores[index]
+                                                [0] !=
+                                            matchDetailController.scores[index]
+                                                [1]
+                                    ? matchDetailController.scores[index][0] <
+                                            matchDetailController.scores[index]
+                                                [1]
+                                        ? const Text('W',
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold))
+                                        : const Text('L',
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold))
+                                    : Container(),
                                 Row(
                                   children: [
-                                    plusIcon(),
+                                    GestureDetector(
+                                        onTap: () => matchDetailController
+                                            .addScore(index, 1),
+                                        child: plusIcon()),
                                     SizedBox(width: phoneSize.width * 0.015),
                                     Text(teamName2),
                                     SizedBox(width: phoneSize.width * 0.015),
-                                    minusIcon(),
+                                    GestureDetector(
+                                        onTap: () => matchDetailController
+                                            .minusScore(index, 1),
+                                        child: minusIcon()),
                                   ],
                                 ),
                               ],

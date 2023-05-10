@@ -25,4 +25,26 @@ class MatchDetailController extends GetxController {
     update();
     super.onInit();
   }
+
+  void setScore(int index, int team, String type) {
+    if (type == "plus") {
+      scores[index][team] += 1;
+    } else if (type == "minus") {
+      scores[index][team] -= 1;
+    }
+  }
+
+  void addScore(int index, int team) {
+    if (scores[index][team] < 2) {
+      scores[index][team] += 1;
+    }
+    update();
+  }
+
+  void minusScore(int index, int team) {
+    if (scores[index][team] > 0) {
+      scores[index][team] -= 1;
+    }
+    update();
+  }
 }

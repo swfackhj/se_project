@@ -15,6 +15,10 @@ class LogInController extends GetxController {
       switch (error.code) {
         case 'user-not-found':
           return errorDialog('존재하지 않는 계정입니다.');
+        case 'wrong-password':
+          return errorDialog('비밀번호가 틀렸습니다.');
+        default:
+          print(error.code);
       }
     }
   }
