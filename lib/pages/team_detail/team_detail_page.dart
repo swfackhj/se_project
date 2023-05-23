@@ -1,18 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:software_engineering/controller/user_controller.dart';
+import 'package:software_engineering/pages/team_detail/controller/team_detail_controller.dart';
 import 'package:software_engineering/pages/user_detail/user_detail_page.dart';
 import 'package:software_engineering/utils/paddings.dart';
 import 'package:software_engineering/utils/sizes.dart';
 import 'package:software_engineering/utils/styles.dart';
 
 class TeamDetailPage extends StatelessWidget {
-  final String docID;
+  TeamDetailPage({super.key, required this.docID});
 
-  const TeamDetailPage({super.key, required this.docID});
+  final String docID;
+  final teamDetailController = Get.put(TeamDetailController());
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
+    teamDetailController.getLeaderUid(docID);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -20,6 +26,17 @@ class TeamDetailPage extends StatelessWidget {
           '팀 정보',
           style: appBarTitileStyle,
         ),
+        actions: [
+          // ignore: unrelated_type_equality_checks
+          Obx(() => teamDetailController.leaderUid ==
+                  FirebaseAuth.instance.currentUser?.uid
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                      child: const Icon(Icons.edit), onTap: () {}),
+                )
+              : Container())
+        ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -31,37 +48,34 @@ class TeamDetailPage extends StatelessWidget {
             return Container();
           }
 
-          return Center(
-            child: Padding(
-              padding: defaultPadding,
-              child: Column(
-                children: [
-                  teamSnapshot.data?['image'] ??
-                      Image.asset('assets/default.png'),
-                  SizedBox(height: phoneSize.height * 0.01),
-                  Text('${teamSnapshot.data?['teamName']}', style: titleStyle),
-                  SizedBox(height: phoneSize.height * 0.01),
-                  StreamBuilder<DocumentSnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('user')
-                          .doc(teamSnapshot.data?['leaderUid'])
-                          .snapshots(),
-                      builder: (context, userSnapshot) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            teamLeaderSection(userSnapshot),
-                            SizedBox(height: phoneSize.height * 0.01),
-                            teamMemberSection(teamSnapshot),
-                            SizedBox(height: phoneSize.height * 0.01),
-                            haveBallSection(teamSnapshot),
-                            SizedBox(height: phoneSize.height * 0.01),
-                            haveVestSection(teamSnapshot),
-                          ],
-                        );
-                      })
-                ],
-              ),
+          return Padding(
+            padding: defaultPadding,
+            child: Column(
+              children: [
+                image(teamSnapshot),
+                SizedBox(height: phoneSize.height * 0.01),
+                teamName(teamSnapshot),
+                SizedBox(height: phoneSize.height * 0.01),
+                StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('user')
+                        .doc(teamSnapshot.data?['leaderUid'])
+                        .snapshots(),
+                    builder: (context, userSnapshot) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          teamLeaderSection(userSnapshot),
+                          SizedBox(height: phoneSize.height * 0.01),
+                          teamMemberSection(teamSnapshot),
+                          SizedBox(height: phoneSize.height * 0.01),
+                          haveBallSection(teamSnapshot),
+                          SizedBox(height: phoneSize.height * 0.01),
+                          haveVestSection(teamSnapshot),
+                        ],
+                      );
+                    })
+              ],
             ),
           );
         },
@@ -69,20 +83,34 @@ class TeamDetailPage extends StatelessWidget {
     );
   }
 
+  Widget image(dynamic teamSnapshot) {
+    return teamSnapshot.data?['image'] ??
+        CircleAvatar(
+          radius: phoneSize.height * 0.1,
+          backgroundImage: const AssetImage('assets/default.png'),
+        );
+  }
+
+  Widget teamName(dynamic teamSnapshot) {
+    return Text('${teamSnapshot.data?['teamName']}', style: titleStyle);
+  }
+
   Widget teamLeaderSection(dynamic userSnapshot) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text('팀 리더', style: titleStyle),
+      Text('팀 리더', style: titleStyle.copyWith(fontSize: 20.0)),
+      SizedBox(height: phoneSize.height * 0.01),
       Text('${userSnapshot.data?['name']}',
-          style: subTitleStyle.copyWith(fontSize: 16.0)),
+          style: subTitleStyle.copyWith(fontSize: 18.0)),
     ]);
   }
 
   Widget teamMemberSection(dynamic teamSnapshot) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text(
+      Text(
         '팀 멤버',
-        style: titleStyle,
+        style: titleStyle.copyWith(fontSize: 20.0),
       ),
+      SizedBox(height: phoneSize.height * 0.01),
       ListView.builder(
           shrinkWrap: true,
           itemCount: teamSnapshot.data?['members'].length,
@@ -93,17 +121,22 @@ class TeamDetailPage extends StatelessWidget {
                     .doc(teamSnapshot.data?['members'][index])
                     .snapshots(),
                 builder: (context, membersSnapshot) {
-                  return Row(
+                  return Column(
                     children: [
-                      const Text('- '),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(UserDetailPage(
-                              docID: membersSnapshot.data?['uid']));
-                        },
-                        child: Text('${membersSnapshot.data?['name']}',
-                            style: underLineStyle.copyWith(fontSize: 16.0)),
+                      Row(
+                        children: [
+                          const Text('- '),
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(UserDetailPage(
+                                  docID: membersSnapshot.data?['uid']));
+                            },
+                            child: Text('${membersSnapshot.data?['name']}',
+                                style: underLineStyle.copyWith(fontSize: 18.0)),
+                          ),
+                        ],
                       ),
+                      SizedBox(height: phoneSize.height * 0.005),
                     ],
                   );
                 });

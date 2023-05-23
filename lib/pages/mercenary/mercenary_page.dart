@@ -32,48 +32,56 @@ class _MercenaryPageState extends State<MercenaryPage> {
           style: appBarTitileStyle,
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: defaultPadding,
-          child: StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection('mercenary').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Container();
-              } else {
-                final docs = snapshot.data?.docs;
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('오늘의 용병', style: titleStyle),
-                      SizedBox(height: phoneSize.height * 0.025),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisSpacing: phoneSize.height * 0.01,
-                            childAspectRatio: 2.5),
-                        itemCount: snapshot.data?.docs.length,
-                        itemBuilder: (context, index) {
-                          return MercenaryComponent(
-                              title: docs?[index]['title'],
-                              editor: docs?[index]['editor'],
-                              phoneNumber: docs?[index]['phoneNumber'],
-                              members: docs?[index]['members'],
-                              content: docs?[index]['content'],
-                              createTime: DateFormat('aa hh:mm')
-                                  .format(docs?[index]['createTime'].toDate())
-                                  .toString());
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
-          ),
+      body: Padding(
+        padding: defaultPadding,
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('mercenary')
+              .orderBy('createTime', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            } else {
+              final docs = snapshot.data?.docs;
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('오늘의 용병', style: titleStyle),
+                    SizedBox(height: phoneSize.height * 0.025),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data?.docs.length,
+                      itemBuilder: (context, index) {
+                        return DateFormat('yyyy-MM-dd').format(
+                                    docs?[index]['createTime'].toDate()) ==
+                                DateFormat('yyyy-MM-dd').format(DateTime.now())
+                            ? Column(
+                                children: [
+                                  MercenaryComponent(
+                                      title: docs?[index]['title'],
+                                      editor: docs?[index]['editor'],
+                                      phoneNumber: docs?[index]['phoneNumber'],
+                                      members: docs?[index]['members'],
+                                      content: docs?[index]['content'],
+                                      createTime: DateFormat('aa hh:mm')
+                                          .format(docs?[index]['createTime']
+                                              .toDate())
+                                          .toString()),
+                                  SizedBox(
+                                    height: phoneSize.height * 0.01,
+                                  )
+                                ],
+                              )
+                            : Container();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
         ),
       ),
       floatingActionButton: SpeedDial(

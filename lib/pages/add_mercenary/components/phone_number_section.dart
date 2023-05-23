@@ -29,7 +29,7 @@ class PhoneNumberSection extends StatelessWidget {
                 controller: addMercenaryController.phoneNumberController,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'ex. 010-0000-0000',
+                    hintText: '010-0000-0000',
                     hintStyle: TextStyle(color: Colors.grey[300])),
                 cursorColor: Colors.black,
               ))

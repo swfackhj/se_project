@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:software_engineering/pages/add_mercenary/components/editor_section.dart';
 import 'package:software_engineering/pages/add_mercenary/components/member_section.dart';
 import 'package:software_engineering/pages/add_mercenary/components/title_section.dart';
 import 'package:software_engineering/pages/add_mercenary/controller/add_mercenary_controller.dart';
@@ -38,10 +37,6 @@ class AddMercenaryPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TitleSection(),
-                      SizedBox(
-                        height: phoneSize.height * 0.01,
-                      ),
-                      EditorSection(),
                       SizedBox(
                         height: phoneSize.height * 0.01,
                       ),

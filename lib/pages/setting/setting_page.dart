@@ -6,6 +6,7 @@ import 'package:software_engineering/controller/user_controller.dart';
 import 'package:software_engineering/pages/setting/components/list_tile.dart';
 import 'package:software_engineering/pages/setting/controller/setting_controller.dart';
 import 'package:software_engineering/utils/paddings.dart';
+import 'package:software_engineering/utils/styles.dart';
 
 import '../../utils/sizes.dart';
 
@@ -19,7 +20,11 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: null,
+        backgroundColor: Colors.black,
+        title: const Text(
+          '밀덕',
+          style: appBarTitileStyle,
+        ),
       ),
       body: SafeArea(
           child: Center(
@@ -36,17 +41,18 @@ class SettingPage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                         backgroundImage: const AssetImage('assets/default.png'),
-                        radius: phoneSize.width * 0.1),
-                    Text('${snapshot.data!['name']}'),
+                        radius: phoneSize.height * 0.1),
+                    SizedBox(height: phoneSize.height * 0.025),
+                    Text('${snapshot.data!['name']}', style: titleStyle),
                     SizedBox(height: phoneSize.height * 0.01),
                     CustomListTile(
                         icon: const Icon(Icons.people),
                         title: '나의 소속팀',
-                        onTap: () => null),
+                        onTap: () {}),
                     CustomListTile(
                         icon: const Icon(Icons.flight),
                         title: '나의 전적',
-                        onTap: () => null),
+                        onTap: () {}),
                     CustomListTile(
                         icon: const Icon(Icons.logout),
                         title: '로그아웃',

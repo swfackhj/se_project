@@ -1,31 +1,50 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class MatchContorller extends GetxController {
-  late int docsLength;
+  List<dynamic> docs = [];
   late List<List<dynamic>> combination = [];
 
-  @override
-  void onInit() async {
-    await FirebaseFirestore.instance.collection('team').get().then((snapshot) {
-      docsLength = snapshot.docs.length;
-      if (docsLength > 2) {
-        for (int i = 0; i < docsLength; i++) {
-          for (int j = i + 1; j < docsLength; j++) {
-            combination.add([
-              snapshot.docs[i]['docID'],
-              snapshot.docs[j]['docID'],
-            ]);
-          }
+  void getTodayTeams(
+      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+    docs.clear();
+    combination.clear();
+    final format = DateFormat('yyyy-MM-dd');
+    final now = DateTime.now();
+    final yesterday = DateTime.utc(now.year, now.month, now.day - 1);
+    for (int n = 0; n < snapshot.data!.docs.length; n++) {
+      if (now.hour >= 0 && now.hour < 8) {
+        if (format.format(snapshot.data!.docs[n]['createTime'].toDate()) ==
+            format.format(yesterday)) {
+          docs.contains(snapshot.data!.docs[n])
+              ? null
+              : docs.add(snapshot.data!.docs[n]);
         }
       } else {
-        List<dynamic> temp = [];
-        for (int n = 0; n < docsLength; n++) {
-          temp.add(snapshot.docs[n]['docID']);
+        if (format.format(snapshot.data!.docs[n]['createTime'].toDate()) ==
+            format.format(now)) {
+          docs.contains(snapshot.data!.docs[n])
+              ? null
+              : docs.add(snapshot.data!.docs[n]);
         }
-        combination.add(temp);
       }
-    });
-    super.onInit();
+    }
+    getTodayMatches();
+    update();
+  }
+
+  void getTodayMatches() {
+    if (docs.length >= 2) {
+      for (int i = 0; i < docs.length; i++) {
+        for (int j = i + 1; j < docs.length; j++) {
+          combination.add([
+            docs[i]['docID'],
+            docs[j]['docID'],
+          ]);
+        }
+      }
+    }
   }
 }
