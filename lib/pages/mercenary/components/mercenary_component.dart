@@ -35,11 +35,8 @@ class MercenaryComponent extends StatelessWidget {
         child: Column(children: [
           Row(
             children: [
-              SizedBox(
-                width: phoneSize.width * 0.15,
-                height: phoneSize.width * 0.15,
-                child: Image.asset('assets/default.png'),
-              ),
+              const CircleAvatar(
+                  backgroundImage: AssetImage('assets/default.png')),
               SizedBox(width: phoneSize.width * 0.05),
               Expanded(
                 child: Column(
@@ -48,16 +45,22 @@ class MercenaryComponent extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          editor,
-                          style: subTitleStyle.copyWith(
-                              fontWeight: FontWeight.bold),
+                        Row(
+                          children: [
+                            Text(
+                              title,
+                              style: subTitleStyle.copyWith(
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(width: phoneSize.width * 0.01),
+                            Text(editor),
+                          ],
                         ),
                         Text(createTime)
                       ],
                     ),
                     SizedBox(height: phoneSize.height * 0.01),
-                    Text(title)
+                    Text(content)
                   ],
                 ),
               )
@@ -73,12 +76,16 @@ class MercenaryComponent extends StatelessWidget {
                 Row(
                   children: [
                     const Icon(Icons.person),
+                    SizedBox(width: phoneSize.width * 0.01),
                     Text('$members / 6'),
                   ],
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [Icon(Icons.location_on), Text('히딩크 드림필드')],
+                  children: [
+                    const Icon(Icons.phone),
+                    SizedBox(width: phoneSize.width * 0.01),
+                    Text(phoneNumber)
+                  ],
                 ),
               ],
             ),

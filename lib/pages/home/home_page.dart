@@ -12,6 +12,7 @@ import 'package:software_engineering/pages/mercenary/mercenary_page.dart';
 import 'package:software_engineering/pages/rank/rank_page.dart';
 import 'package:software_engineering/pages/setting/setting_page.dart';
 import 'package:software_engineering/pages/team_detail/team_detail_page.dart';
+import 'package:software_engineering/pages/team_list/team_list_page.dart';
 import 'package:software_engineering/utils/paddings.dart';
 import 'package:software_engineering/utils/sizes.dart';
 import 'package:software_engineering/utils/styles.dart';
@@ -50,154 +51,67 @@ class _HomePageState extends State<HomePage> {
       body: GetBuilder<HomeController>(builder: (context) {
         return Padding(
           padding: defaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: phoneSize.height * 0.5,
-                child: StreamBuilder<QuerySnapshot>(
-                  stream:
-                      FirebaseFirestore.instance.collection('team').snapshots(),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('team')
+                      .orderBy('createTime', descending: true)
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Container();
                     }
 
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '오늘의 팀',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18.0),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        title(),
+                        SizedBox(height: phoneSize.height * 0.025),
+                        SizedBox(
+                          height: phoneSize.height * 0.7,
+                          child: ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (builder, index) {
+                              final yesterday = DateTime.utc(
+                                  DateTime.now().year,
+                                  DateTime.now().month,
+                                  DateTime.now().day - 1);
+                              if (DateTime.now().hour >= 0 &&
+                                  DateTime.now().hour < 8) {
+                                if (DateFormat('yyyy-MM-dd').format(snapshot
+                                        .data!.docs[index]['createTime']
+                                        .toDate()) ==
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(yesterday)) {
+                                  return item(snapshot, index);
+                                } else {
+                                  return Container();
+                                }
+                              } else {
+                                if (DateFormat('yyyy-MM-dd').format(snapshot
+                                        .data!.docs[index]['createTime']
+                                        .toDate()) ==
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(DateTime.now())) {
+                                  return item(snapshot, index);
+                                } else {
+                                  return Container();
+                                }
+                              }
+                            },
                           ),
-                          SizedBox(height: phoneSize.height * 0.025),
-                          SizedBox(
-                            height: phoneSize.height * 0.7,
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 1,
-                                      mainAxisSpacing: phoneSize.height * 0.01,
-                                      childAspectRatio: 2.5),
-                              itemCount: snapshot.data?.docs.length,
-                              itemBuilder: (builder, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(TeamDetailPage(
-                                        docID: snapshot.data?.docs[index]
-                                            ['docID']));
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: 1.0),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    padding: const EdgeInsets.all(10),
-                                    width: phoneSize.width,
-                                    height: phoneSize.width * 0.3,
-                                    child: Row(children: [
-                                      Container(
-                                        width: phoneSize.width * 0.2,
-                                        height: phoneSize.width * 0.2,
-                                        color: Colors.black,
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  phoneSize.width * 0.05),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '${snapshot.data?.docs[index]['teamName']}',
-                                                    style: const TextStyle(
-                                                        fontSize: 18.0,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(DateFormat('aa hh:mm')
-                                                      .format(snapshot
-                                                          .data!
-                                                          .docs[index]
-                                                              ['createTime']
-                                                          .toDate()))
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                  height:
-                                                      phoneSize.width * 0.015),
-                                              Row(
-                                                children: [
-                                                  const Icon(Icons.person,
-                                                      size: 16.0),
-                                                  Text(
-                                                      '${snapshot.data!.docs[index]['members'].length.toString()} / 6'),
-                                                  SizedBox(
-                                                    height: phoneSize.height *
-                                                        0.015,
-                                                    child: VerticalDivider(
-                                                      width: phoneSize.width *
-                                                          0.03,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  const Icon(
-                                                      Icons.sports_soccer,
-                                                      size: 16.0),
-                                                  snapshot.data!.docs[index]
-                                                          ['haveBall']
-                                                      ? const Text('O')
-                                                      : const Text('X'),
-                                                  SizedBox(
-                                                    height: phoneSize.height *
-                                                        0.015,
-                                                    child: VerticalDivider(
-                                                      width: phoneSize.width *
-                                                          0.03,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  SvgPicture.asset(
-                                                    'assets/vest.svg',
-                                                    width: 16.0,
-                                                    height: 16.0,
-                                                  ),
-                                                  SizedBox(
-                                                      width: phoneSize.width *
-                                                          0.01),
-                                                  snapshot.data!.docs[index]
-                                                          ['haveVest']
-                                                      ? const Text('O')
-                                                      : const Text('X'),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ]),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }),
@@ -213,12 +127,125 @@ class _HomePageState extends State<HomePage> {
         children: [
           SpeedDialChild(
               child: const Icon(Icons.groups),
-              label: '팀 등록',
+              label: '새로운 팀 등록',
               onTap: () {
                 Get.to(() => AddTeamPage());
               }),
+          SpeedDialChild(
+              child: const Icon(Icons.groups),
+              label: '기존 팀 등록',
+              onTap: () {
+                Get.to(() => const TeamListPage());
+              })
         ],
       ),
+    );
+  }
+
+  Widget item(snapshot, index) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.to(() =>
+                TeamDetailPage(docID: snapshot.data?.docs[index]['docID']));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 1.0),
+                borderRadius: BorderRadius.circular(10.0)),
+            padding: const EdgeInsets.all(10.0),
+            width: phoneSize.width,
+            height: phoneSize.width * 0.3,
+            child: Row(children: [
+              image(),
+              Expanded(
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: phoneSize.width * 0.05),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          teamName(snapshot.data?.docs[index]['teamName']),
+                          date(snapshot.data!.docs[index]['createTime']
+                              .toDate()),
+                        ],
+                      ),
+                      SizedBox(height: phoneSize.width * 0.015),
+                      option(
+                          snapshot.data!.docs[index]['members'],
+                          snapshot.data!.docs[index]['haveBall'],
+                          snapshot.data!.docs[index]['haveVest'])
+                    ],
+                  ),
+                ),
+              )
+            ]),
+          ),
+        ),
+        SizedBox(height: phoneSize.height * 0.01),
+      ],
+    );
+  }
+
+  Widget title() {
+    return const Text(
+      '오늘의 팀',
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+    );
+  }
+
+  Widget image() {
+    return Container(
+      width: phoneSize.width * 0.2,
+      height: phoneSize.width * 0.2,
+      color: Colors.black,
+    );
+  }
+
+  Widget teamName(String teamName) {
+    return Text(
+      teamName,
+      style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget date(DateTime date) {
+    return Text(DateFormat('aa hh:mm').format(date));
+  }
+
+  Widget option(List<dynamic> members, bool haveBall, bool haveVest) {
+    return Row(
+      children: [
+        const Icon(Icons.person, size: 16.0),
+        Text('${members.length.toString()} / 6'),
+        SizedBox(
+          height: phoneSize.height * 0.015,
+          child: VerticalDivider(
+            width: phoneSize.width * 0.03,
+            color: Colors.black,
+          ),
+        ),
+        const Icon(Icons.sports_soccer, size: 16.0),
+        haveBall ? const Text('O') : const Text('X'),
+        SizedBox(
+          height: phoneSize.height * 0.015,
+          child: VerticalDivider(
+            width: phoneSize.width * 0.03,
+            color: Colors.black,
+          ),
+        ),
+        SvgPicture.asset(
+          'assets/vest.svg',
+          width: 16.0,
+          height: 16.0,
+        ),
+        SizedBox(width: phoneSize.width * 0.01),
+        haveVest ? const Text('O') : const Text('X'),
+      ],
     );
   }
 }

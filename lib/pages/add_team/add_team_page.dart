@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/pages/add_team/components/equipment_section.dart';
@@ -49,29 +47,7 @@ class AddTeamPage extends StatelessWidget {
                 ]),
                 ElevatedButton(
                     onPressed: () async {
-                      String docID = FirebaseFirestore.instance
-                          .collection('team')
-                          .doc()
-                          .id;
-                      addTeamController.membersUid
-                          .add(FirebaseAuth.instance.currentUser!.uid);
-                      FirebaseFirestore.instance
-                          .collection('team')
-                          .doc(docID)
-                          .set({
-                        'teamName': addTeamController.teamNameController.text,
-                        'place': addTeamController.place,
-                        'phoneNumber':
-                            '010${addTeamController.middleNumberController.text}${addTeamController.endNumberController.text}',
-                        'haveBall': addTeamController.haveBall,
-                        'haveVest': addTeamController.haveVest,
-                        'createTime': DateTime.now(),
-                        'members': addTeamController.membersUid,
-                        'leaderUid': FirebaseAuth.instance.currentUser?.uid,
-                        'docID': docID,
-                        'image': null,
-                      });
-                      Get.back();
+                      addTeamController.addTeam();
                     },
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.black),

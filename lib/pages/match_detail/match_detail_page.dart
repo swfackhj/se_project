@@ -22,8 +22,11 @@ class MatchDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final matchDetailController = Get.put(
-        MatchDetailController(teamName1: teamName1, teamName2: teamName2));
+    final matchDetailController = Get.put(MatchDetailController(
+        teamUid1: team1,
+        teamUid2: team2,
+        teamName1: teamName1,
+        teamName2: teamName2));
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -157,7 +160,7 @@ class MatchDetailPage extends StatelessWidget {
                                     : Container(),
                                 index <= matchDetailController.scores.length - 1
                                     ? Text(
-                                        '${matchDetailController.scores[0][0]}')
+                                        '${matchDetailController.scores[index][0]}')
                                     : Container(),
                                 Row(
                                   children: [
@@ -166,7 +169,7 @@ class MatchDetailPage extends StatelessWidget {
                                 ),
                                 index <= matchDetailController.scores.length - 1
                                     ? Text(
-                                        '${matchDetailController.scores[0][1]}')
+                                        '${matchDetailController.scores[index][1]}')
                                     : Container(),
                                 index <=
                                             matchDetailController

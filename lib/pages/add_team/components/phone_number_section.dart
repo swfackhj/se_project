@@ -53,6 +53,7 @@ class PhoneNumberSection extends StatelessWidget {
               width: phoneSize.width * 0.15,
               height: phoneSize.height * 0.05,
               child: TextField(
+                keyboardType: TextInputType.number,
                 controller: addTeamController.endNumberController,
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
