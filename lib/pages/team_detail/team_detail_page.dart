@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controller/user_controller.dart';
 import 'package:software_engineering/pages/team_detail/controller/team_detail_controller.dart';
+import 'package:software_engineering/pages/team_edit/tean_edit_page.dart';
 import 'package:software_engineering/pages/user_detail/user_detail_page.dart';
 import 'package:software_engineering/utils/paddings.dart';
 import 'package:software_engineering/utils/sizes.dart';
@@ -30,10 +31,14 @@ class TeamDetailPage extends StatelessWidget {
           // ignore: unrelated_type_equality_checks
           Obx(() => teamDetailController.leaderUid ==
                   FirebaseAuth.instance.currentUser?.uid
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                      child: const Icon(Icons.edit), onTap: () {}),
+              ? GestureDetector(
+                  onTap: () {
+                    Get.to(() => TeamEditPage(), arguments: {'docID': docID});
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.edit),
+                  ),
                 )
               : Container())
         ],
@@ -55,7 +60,7 @@ class TeamDetailPage extends StatelessWidget {
                 image(teamSnapshot),
                 SizedBox(height: phoneSize.height * 0.01),
                 teamName(teamSnapshot),
-                SizedBox(height: phoneSize.height * 0.01),
+                SizedBox(height: phoneSize.height * 0.05),
                 StreamBuilder<DocumentSnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('user')
@@ -92,7 +97,8 @@ class TeamDetailPage extends StatelessWidget {
   }
 
   Widget teamName(dynamic teamSnapshot) {
-    return Text('${teamSnapshot.data?['teamName']}', style: titleStyle);
+    return Text('${teamSnapshot.data?['teamName']}',
+        style: titleStyle.copyWith(fontSize: 28.0));
   }
 
   Widget teamLeaderSection(dynamic userSnapshot) {

@@ -18,13 +18,16 @@ class MatchDetailController extends GetxController {
 
   @override
   void onInit() async {
-    await FirebaseFirestore.instance
+    final snapshot = await FirebaseFirestore.instance
         .collection('match')
         .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
-        .get()
-        .then((snapshot) {
+        .get();
+    if (snapshot.exists) {
       for (int n = 0;
-          n < snapshot.data()!['$teamName1 VS $teamName2'].length;
+          n <
+              (snapshot.data()!['$teamName1 VS $teamName2'].length == 0
+                  ? 0
+                  : snapshot.data()!['$teamName1 VS $teamName2'].length);
           n++) {
         var temp = [];
         temp.add(int.parse(
@@ -33,7 +36,8 @@ class MatchDetailController extends GetxController {
             snapshot.data()!['$teamName1 VS $teamName2'][n]['$n경기'][4]));
         scores.add(temp);
       }
-    });
+    }
+
     scores.add([0, 0]);
     update();
     super.onInit();

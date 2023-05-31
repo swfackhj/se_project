@@ -58,6 +58,12 @@ class AddTeamController extends GetxController {
         !middleNumberController.text.isNum ||
         !endNumberController.text.isNum) {
       errorDialog('전화번호 형식이 잘못되었습니다.');
+    } else if (teamNameController.text.contains('/') ||
+        teamNameController.text.contains('~') ||
+        teamNameController.text.contains('[') ||
+        teamNameController.text.contains(']') ||
+        teamNameController.text.contains('*')) {
+      errorDialog('팀 이름에 특수문자가 포함될 수 없습니다.');
     } else {
       String docID = FirebaseFirestore.instance.collection('team').doc().id;
       membersUid.add(FirebaseAuth.instance.currentUser!.uid);
