@@ -27,6 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final homeController = Get.put(HomeController());
   final userController = Get.put(UserController());
+
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   int selectedPage = 0;
@@ -55,14 +56,14 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                StreamBuilder<QuerySnapshot>(
+                StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('team')
                       .orderBy('createTime', descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Container();
+                      return const CircularProgressIndicator();
                     }
 
                     return Column(

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/pages/login/controller/login_controller.dart';
 import 'package:software_engineering/pages/signup/signup_page.dart';
+import 'package:software_engineering/utils/sizes.dart';
 import 'package:software_engineering/utils/styles.dart';
 
 class LogInPage extends StatelessWidget {
   LogInPage({super.key});
 
   final logInController = Get.put(LogInController());
-
-  final phoneSize = Get.context!.mediaQuerySize;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +23,12 @@ class LogInPage extends StatelessWidget {
               TextField(
                 controller: logInController.emailController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    label: Text('ID'),
-                    labelStyle: TextStyle(color: Colors.black)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(),
+                  label: Text('ID'),
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                cursorColor: Colors.black,
               ),
               SizedBox(
                 height: phoneSize.height * 0.025,
@@ -35,10 +36,12 @@ class LogInPage extends StatelessWidget {
               TextField(
                 controller: logInController.passwordController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    label: Text('Password'),
-                    labelStyle: TextStyle(color: Colors.black)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(),
+                  label: Text('Password'),
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+                cursorColor: Colors.black,
                 obscureText: true,
               ),
               SizedBox(
