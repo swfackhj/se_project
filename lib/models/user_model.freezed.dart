@@ -20,12 +20,13 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
-  String get eamil => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   String get club => throw _privateConstructorUsedError;
   String get emailVerified => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,12 +40,13 @@ abstract class $UserModelCopyWith<$Res> {
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
-      {String eamil,
+      {String email,
       String password,
       String name,
       String gender,
       String club,
-      String emailVerified});
+      String emailVerified,
+      String uid});
 }
 
 /// @nodoc
@@ -60,17 +62,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? eamil = null,
+    Object? email = null,
     Object? password = null,
     Object? name = null,
     Object? gender = null,
     Object? club = null,
     Object? emailVerified = null,
+    Object? uid = null,
   }) {
     return _then(_value.copyWith(
-      eamil: null == eamil
-          ? _value.eamil
-          : eamil // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
           ? _value.password
@@ -91,6 +94,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       emailVerified: null == emailVerified
           ? _value.emailVerified
           : emailVerified // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -104,12 +111,13 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String eamil,
+      {String email,
       String password,
       String name,
       String gender,
       String club,
-      String emailVerified});
+      String emailVerified,
+      String uid});
 }
 
 /// @nodoc
@@ -123,17 +131,18 @@ class __$$_UserModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? eamil = null,
+    Object? email = null,
     Object? password = null,
     Object? name = null,
     Object? gender = null,
     Object? club = null,
     Object? emailVerified = null,
+    Object? uid = null,
   }) {
     return _then(_$_UserModel(
-      eamil: null == eamil
-          ? _value.eamil
-          : eamil // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
           ? _value.password
@@ -155,6 +164,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.emailVerified
           : emailVerified // ignore: cast_nullable_to_non_nullable
               as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -163,18 +176,19 @@ class __$$_UserModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserModel implements _UserModel {
   _$_UserModel(
-      {required this.eamil,
+      {required this.email,
       required this.password,
       required this.name,
       required this.gender,
       required this.club,
-      required this.emailVerified});
+      required this.emailVerified,
+      required this.uid});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
 
   @override
-  final String eamil;
+  final String email;
   @override
   final String password;
   @override
@@ -185,10 +199,12 @@ class _$_UserModel implements _UserModel {
   final String club;
   @override
   final String emailVerified;
+  @override
+  final String uid;
 
   @override
   String toString() {
-    return 'UserModel(eamil: $eamil, password: $password, name: $name, gender: $gender, club: $club, emailVerified: $emailVerified)';
+    return 'UserModel(email: $email, password: $password, name: $name, gender: $gender, club: $club, emailVerified: $emailVerified, uid: $uid)';
   }
 
   @override
@@ -196,20 +212,21 @@ class _$_UserModel implements _UserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserModel &&
-            (identical(other.eamil, eamil) || other.eamil == eamil) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.club, club) || other.club == club) &&
             (identical(other.emailVerified, emailVerified) ||
-                other.emailVerified == emailVerified));
+                other.emailVerified == emailVerified) &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, eamil, password, name, gender, club, emailVerified);
+      runtimeType, email, password, name, gender, club, emailVerified, uid);
 
   @JsonKey(ignore: true)
   @override
@@ -227,18 +244,19 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   factory _UserModel(
-      {required final String eamil,
+      {required final String email,
       required final String password,
       required final String name,
       required final String gender,
       required final String club,
-      required final String emailVerified}) = _$_UserModel;
+      required final String emailVerified,
+      required final String uid}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
 
   @override
-  String get eamil;
+  String get email;
   @override
   String get password;
   @override
@@ -249,6 +267,8 @@ abstract class _UserModel implements UserModel {
   String get club;
   @override
   String get emailVerified;
+  @override
+  String get uid;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

@@ -31,10 +31,9 @@ class AddTeamController extends GetxController {
   }
 
   void addMember(String email) async {
-    final userEmail = '$email@handong.ac.kr';
     final snapshot = await FirebaseFirestore.instance
         .collection('user')
-        .where('email', isEqualTo: userEmail)
+        .where('email', isEqualTo: email)
         .get();
     try {
       if (!membersUid.contains(snapshot.docs[0]['uid'])) {
@@ -43,6 +42,7 @@ class AddTeamController extends GetxController {
         errorDialog('이미 추가되어있습니다.');
       }
     } catch (e) {
+      print(e.toString());
       errorDialog('해당 유저가 존재하지 않습니다.');
     }
     update();
