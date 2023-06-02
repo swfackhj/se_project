@@ -56,43 +56,48 @@ class MatchPage extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       itemCount: matchContoller.combination.length,
       itemBuilder: (context, index) {
-        return Container(
-            width: phoneSize.width,
-            height: phoneSize.height * 0.2,
-            decoration: BoxDecoration(
-              border: Border.all(width: 1.0),
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('team')
-                    .doc(matchContoller.combination[index][0])
-                    .snapshots(),
-                builder: (context, leftTeamSnapshot) {
-                  return StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('team')
-                          .doc(matchContoller.combination[index][1])
-                          .snapshots(),
-                      builder: (context, rightTeamSnapshot) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            leftTeam(leftTeamSnapshot),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('VS',
-                                      style:
-                                          titleStyle.copyWith(fontSize: 32.0)),
-                                  button(leftTeamSnapshot, rightTeamSnapshot,
-                                      index)
-                                ]),
-                            rigthTeam(rightTeamSnapshot),
-                          ],
-                        );
-                      });
-                }));
+        return Column(
+          children: [
+            Container(
+                width: phoneSize.width,
+                height: phoneSize.width * 0.3,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1.0),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('team')
+                        .doc(matchContoller.combination[index][0])
+                        .snapshots(),
+                    builder: (context, leftTeamSnapshot) {
+                      return StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('team')
+                              .doc(matchContoller.combination[index][1])
+                              .snapshots(),
+                          builder: (context, rightTeamSnapshot) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                leftTeam(leftTeamSnapshot),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('VS',
+                                          style: titleStyle.copyWith(
+                                              fontSize: 32.0)),
+                                      button(leftTeamSnapshot,
+                                          rightTeamSnapshot, index)
+                                    ]),
+                                rightTeam(rightTeamSnapshot),
+                              ],
+                            );
+                          });
+                    })),
+            SizedBox(height: phoneSize.height * 0.01),
+          ],
+        );
       },
     );
   }
@@ -108,13 +113,18 @@ class MatchPage extends StatelessWidget {
           color: Colors.black,
         ),
         SizedBox(height: phoneSize.height * 0.01),
-        Text('${leftTeamSnapshot.data?['teamName']}',
-            style: subTitleStyle.copyWith(fontWeight: FontWeight.bold)),
+        Container(
+          alignment: Alignment.center,
+          width: phoneSize.height * 0.08,
+          child: Text('${leftTeamSnapshot.data?['teamName']}',
+              style: subTitleStyle.copyWith(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis),
+        ),
       ],
     );
   }
 
-  Widget rigthTeam(dynamic rightTeamSnapshot) {
+  Widget rightTeam(dynamic rightTeamSnapshot) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,8 +135,13 @@ class MatchPage extends StatelessWidget {
           color: Colors.black,
         ),
         SizedBox(height: phoneSize.height * 0.01),
-        Text('${rightTeamSnapshot.data?['teamName']}',
-            style: subTitleStyle.copyWith(fontWeight: FontWeight.bold)),
+        Container(
+          alignment: Alignment.center,
+          width: phoneSize.height * 0.08,
+          child: Text('${rightTeamSnapshot.data?['teamName']}',
+              style: subTitleStyle.copyWith(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis),
+        ),
       ],
     );
   }
@@ -159,11 +174,13 @@ class MatchPage extends StatelessWidget {
                   .doc(today)
                   .set({});
             }
-            Get.to(() => MatchDetailPage(
-                team1: matchContoller.combination[index][0],
-                teamName1: leftTeamSnapshot.data?['teamName'],
-                team2: matchContoller.combination[index][1],
-                teamName2: rightTeamSnapshot.data?['teamName']));
+            Get.to(() => MatchDetailPage(),
+                arguments: ({
+                  'team1': matchContoller.combination[index][0],
+                  'teamName1': leftTeamSnapshot.data?['teamName'],
+                  'team2': matchContoller.combination[index][1],
+                  'teamName2': rightTeamSnapshot.data?['teamName'],
+                }));
           });
         },
         style: ElevatedButton.styleFrom(backgroundColor: Colors.black),

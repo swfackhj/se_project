@@ -38,8 +38,10 @@ class PhoneNumberSection extends StatelessWidget {
                 controller: addTeamController.middleNumberController,
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(),
                     contentPadding:
                         EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0)),
+                cursorColor: Colors.black,
               ),
             ),
             SizedBox(
@@ -57,8 +59,10 @@ class PhoneNumberSection extends StatelessWidget {
                 controller: addTeamController.endNumberController,
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(),
                     contentPadding:
                         EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0)),
+                cursorColor: Colors.black,
               ),
             ),
           ],

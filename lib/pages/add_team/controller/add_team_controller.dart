@@ -31,9 +31,10 @@ class AddTeamController extends GetxController {
   }
 
   void addMember(String email) async {
+    final removed = email.replaceAll('@handong.ac.kr', '');
     final snapshot = await FirebaseFirestore.instance
         .collection('user')
-        .where('email', isEqualTo: email)
+        .where('email', isEqualTo: removed)
         .get();
     try {
       if (!membersUid.contains(snapshot.docs[0]['uid'])) {

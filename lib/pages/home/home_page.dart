@@ -170,7 +170,10 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          teamName(snapshot.data?.docs[index]['teamName']),
+                          SizedBox(
+                              width: phoneSize.width * 0.25,
+                              child: teamName(
+                                  snapshot.data?.docs[index]['teamName'])),
                           date(snapshot.data!.docs[index]['createTime']
                               .toDate()),
                         ],
@@ -211,6 +214,8 @@ class _HomePageState extends State<HomePage> {
     return Text(
       teamName,
       style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 

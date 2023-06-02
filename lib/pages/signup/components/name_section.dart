@@ -21,9 +21,11 @@ class NameSection extends StatelessWidget {
               controller: signUpController.nameController,
               decoration: InputDecoration(
                   border: const OutlineInputBorder(),
+                  focusedBorder: const OutlineInputBorder(),
                   contentPadding:
                       EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0),
                   hintText: '이름을 입력해주세요'),
+              cursorColor: Colors.black,
             ),
           )
         ],

@@ -76,9 +76,9 @@ class TeamComponent extends StatelessWidget {
                     Text('$members / 6'),
                   ],
                 ),
-                Row(
+                const Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [Icon(Icons.location_on), Text('히딩크 드림필드')],
+                  children: [Icon(Icons.location_on), Text('히딩크 드림필드')],
                 ),
               ],
             ),

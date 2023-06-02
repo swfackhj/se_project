@@ -28,9 +28,11 @@ class MemberSection extends StatelessWidget {
                 controller: addTeamController.addMemberController,
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(),
                     contentPadding:
                         EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0),
                     hintText: '아이디를 입력해주세요'),
+                cursorColor: Colors.black,
               ),
             ),
             SizedBox(width: phoneSize.width * 0.05),

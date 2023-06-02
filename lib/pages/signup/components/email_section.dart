@@ -24,10 +24,12 @@ class EmailSection extends StatelessWidget {
                     controller: signUpController.emailController,
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
+                        focusedBorder: const OutlineInputBorder(),
                         contentPadding: EdgeInsets.fromLTRB(
                             phoneSize.width * 0.03, 0, 0, 0),
                         hintText: '이메일을 입력해주세요'),
                     style: const TextStyle(fontSize: 14.0),
+                    cursorColor: Colors.black,
                   ),
                 ),
               ),
