@@ -13,3 +13,15 @@ Future<dynamic> errorDialog(String content) {
     onConfirm: Get.back,
   );
 }
+
+Future<dynamic> dialog(String content) {
+  return Get.defaultDialog(
+    title: '알림',
+    titleStyle: titleStyle,
+    content: Text(content),
+    textConfirm: '확인',
+    buttonColor: Colors.black,
+    confirmTextColor: Colors.white,
+    onConfirm: Get.back,
+  );
+}

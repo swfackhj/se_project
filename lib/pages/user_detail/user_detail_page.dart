@@ -34,8 +34,9 @@ class UserDetailPage extends StatelessWidget {
               padding: defaultPadding,
               child: Column(
                 children: [
-                  userSnapshot.data?['image'] ??
-                      Image.asset('assets/default.png'),
+                  const CircleAvatar(
+                      backgroundImage: AssetImage('assets/default.png'),
+                      radius: 100.0),
                   SizedBox(height: phoneSize.height * 0.01),
                   Text('${userSnapshot.data?['name']}', style: titleStyle),
                   SizedBox(height: phoneSize.height * 0.01),

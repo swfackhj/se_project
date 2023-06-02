@@ -23,7 +23,6 @@ class LogInController extends GetxController {
           return errorDialog('비밀번호가 틀렸습니다.');
 
         default:
-          print(error.code);
       }
     }
   }

@@ -38,11 +38,14 @@ class TeamNameSection extends StatelessWidget {
                     controller: addTeamController.teamNameController,
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
+                        focusedBorder: const OutlineInputBorder(),
                         contentPadding: EdgeInsets.fromLTRB(
                             phoneSize.width * 0.03, 0, 0, 0),
                         hintText: '팀 이름을 입력해주세요'),
+                    cursorColor: Colors.black,
                   ),
                 ),
+                SizedBox(width: phoneSize.width * 0.025),
                 SizedBox(
                     height: phoneSize.height * 0.05,
                     child: ElevatedButton(
@@ -55,6 +58,8 @@ class TeamNameSection extends StatelessWidget {
                             .get();
                         if (snapshot.docs.isNotEmpty) {
                           errorDialog('중복된 팀 이름입니다.');
+                        } else {
+                          dialog('사용 가능한 이름입니다.');
                         }
                       },
                       style: ElevatedButton.styleFrom(

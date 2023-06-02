@@ -8,25 +8,17 @@ import 'package:software_engineering/utils/sizes.dart';
 import 'package:software_engineering/utils/styles.dart';
 
 class MatchDetailPage extends StatelessWidget {
-  const MatchDetailPage(
-      {super.key,
-      required this.team1,
-      required this.teamName1,
-      required this.team2,
-      required this.teamName2});
+  MatchDetailPage({super.key});
 
-  final String team1;
-  final String teamName1;
-  final String team2;
-  final String teamName2;
+  final matchDetailController = Get.put(MatchDetailController(
+    teamUid1: Get.arguments['team1'],
+    teamUid2: Get.arguments['team2'],
+    teamName1: Get.arguments['teamName1'],
+    teamName2: Get.arguments['teamName2'],
+  ));
 
   @override
   Widget build(BuildContext context) {
-    final matchDetailController = Get.put(MatchDetailController(
-        teamUid1: team1,
-        teamUid2: team2,
-        teamName1: teamName1,
-        teamName2: teamName2));
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -52,7 +44,7 @@ class MatchDetailPage extends StatelessWidget {
                       StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('team')
-                              .doc(team1)
+                              .doc(Get.arguments['team1'])
                               .snapshots(),
                           builder: (context, snapshot) {
                             return Column(
@@ -83,7 +75,7 @@ class MatchDetailPage extends StatelessWidget {
                       StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('team')
-                              .doc(team2)
+                              .doc(Get.arguments['team2'])
                               .snapshots(),
                           builder: (context, snapshot) {
                             return Column(
@@ -123,88 +115,68 @@ class MatchDetailPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () => matchDetailController
-                                            .addScore(index, 0),
-                                        child: plusIcon()),
-                                    SizedBox(width: phoneSize.width * 0.015),
-                                    Text(teamName1),
-                                    SizedBox(width: phoneSize.width * 0.015),
-                                    GestureDetector(
-                                        onTap: () => matchDetailController
-                                            .minusScore(index, 0),
-                                        child: minusIcon()),
-                                  ],
+                                SizedBox(
+                                  width: phoneSize.width * 0.25,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () => matchDetailController
+                                              .addScore(index, 0),
+                                          child: plusIcon()),
+                                      SizedBox(width: phoneSize.width * 0.015),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: phoneSize.width * 0.1,
+                                        child: Text(Get.arguments['teamName1'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      SizedBox(width: phoneSize.width * 0.015),
+                                      GestureDetector(
+                                          onTap: () => matchDetailController
+                                              .minusScore(index, 0),
+                                          child: minusIcon()),
+                                    ],
+                                  ),
                                 ),
-                                index <=
-                                            matchDetailController
-                                                    .scores.length -
-                                                1 &&
-                                        matchDetailController.scores[index]
-                                                [0] !=
-                                            matchDetailController.scores[index]
-                                                [1]
-                                    ? matchDetailController.scores[index][0] <
-                                            matchDetailController.scores[index]
-                                                [1]
-                                        ? const Text('L',
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold))
-                                        : const Text('W',
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontWeight: FontWeight.bold))
-                                    : Container(),
-                                index <= matchDetailController.scores.length - 1
-                                    ? Text(
-                                        '${matchDetailController.scores[index][0]}')
-                                    : Container(),
-                                Row(
-                                  children: [
-                                    Text('${index + 1}경기'),
-                                  ],
+                                Expanded(
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        leftScores(index),
+                                        Row(
+                                          children: [
+                                            Text('${index + 1}경기'),
+                                          ],
+                                        ),
+                                        rightScores(index),
+                                      ]),
                                 ),
-                                index <= matchDetailController.scores.length - 1
-                                    ? Text(
-                                        '${matchDetailController.scores[index][1]}')
-                                    : Container(),
-                                index <=
-                                            matchDetailController
-                                                    .scores.length -
-                                                1 &&
-                                        matchDetailController.scores[index]
-                                                [0] !=
-                                            matchDetailController.scores[index]
-                                                [1]
-                                    ? matchDetailController.scores[index][0] <
-                                            matchDetailController.scores[index]
-                                                [1]
-                                        ? const Text('W',
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontWeight: FontWeight.bold))
-                                        : const Text('L',
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold))
-                                    : Container(),
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () => matchDetailController
-                                            .addScore(index, 1),
-                                        child: plusIcon()),
-                                    SizedBox(width: phoneSize.width * 0.015),
-                                    Text(teamName2),
-                                    SizedBox(width: phoneSize.width * 0.015),
-                                    GestureDetector(
-                                        onTap: () => matchDetailController
-                                            .minusScore(index, 1),
-                                        child: minusIcon()),
-                                  ],
+                                SizedBox(
+                                  width: phoneSize.width * 0.25,
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () => matchDetailController
+                                              .addScore(index, 1),
+                                          child: plusIcon()),
+                                      SizedBox(width: phoneSize.width * 0.015),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: phoneSize.width * 0.1,
+                                        child: Text(Get.arguments['teamName2'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      SizedBox(width: phoneSize.width * 0.015),
+                                      GestureDetector(
+                                          onTap: () => matchDetailController
+                                              .minusScore(index, 1),
+                                          child: minusIcon()),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -245,6 +217,58 @@ class MatchDetailPage extends StatelessWidget {
         Icons.remove,
         color: Colors.white,
         size: 16.0,
+      ),
+    );
+  }
+
+  Widget leftScores(int index) {
+    return SizedBox(
+      width: phoneSize.width * 0.09,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          index <= matchDetailController.scores.length - 1
+              ? Text('${matchDetailController.scores[index][1]}')
+              : Container(),
+          index <= matchDetailController.scores.length - 1 &&
+                  matchDetailController.scores[index][0] !=
+                      matchDetailController.scores[index][1]
+              ? matchDetailController.scores[index][0] <
+                      matchDetailController.scores[index][1]
+                  ? const Text('L',
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold))
+                  : const Text('W',
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold))
+              : Container()
+        ],
+      ),
+    );
+  }
+
+  Widget rightScores(int index) {
+    return SizedBox(
+      width: phoneSize.width * 0.09,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          index <= matchDetailController.scores.length - 1
+              ? Text('${matchDetailController.scores[index][1]}')
+              : Container(),
+          index <= matchDetailController.scores.length - 1 &&
+                  matchDetailController.scores[index][0] !=
+                      matchDetailController.scores[index][1]
+              ? matchDetailController.scores[index][0] <
+                      matchDetailController.scores[index][1]
+                  ? const Text('W',
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold))
+                  : const Text('L',
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold))
+              : Container()
+        ],
       ),
     );
   }

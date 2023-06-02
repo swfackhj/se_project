@@ -124,7 +124,7 @@ class TeamDetailPage extends StatelessWidget {
             return StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('user')
-                    .doc(teamSnapshot.data?['members'][index])
+                    .doc(teamSnapshot.data?['members'][index].trim())
                     .snapshots(),
                 builder: (context, membersSnapshot) {
                   return Column(
@@ -135,7 +135,7 @@ class TeamDetailPage extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               Get.to(UserDetailPage(
-                                  docID: membersSnapshot.data?['uid']));
+                                  docID: membersSnapshot.data?['uid'].trim()));
                             },
                             child: Text('${membersSnapshot.data?['name']}',
                                 style: underLineStyle.copyWith(fontSize: 18.0)),

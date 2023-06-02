@@ -46,14 +46,6 @@ class SettingPage extends StatelessWidget {
                     Text('${snapshot.data!['name']}', style: titleStyle),
                     SizedBox(height: phoneSize.height * 0.01),
                     CustomListTile(
-                        icon: const Icon(Icons.people),
-                        title: '나의 소속팀',
-                        onTap: () {}),
-                    CustomListTile(
-                        icon: const Icon(Icons.flight),
-                        title: '나의 전적',
-                        onTap: () {}),
-                    CustomListTile(
                         icon: const Icon(Icons.logout),
                         title: '로그아웃',
                         onTap: () => settingController.signOut()),

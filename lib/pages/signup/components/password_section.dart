@@ -21,10 +21,12 @@ class PasswordSection extends StatelessWidget {
               controller: signUpController.passwordController,
               decoration: InputDecoration(
                   border: const OutlineInputBorder(),
+                  focusedBorder: const OutlineInputBorder(),
                   contentPadding:
                       EdgeInsets.fromLTRB(phoneSize.width * 0.03, 0, 0, 0),
                   hintText: '비밀번호를 입력해주세요'),
               obscureText: true,
+              cursorColor: Colors.black,
             ),
           )
         ],

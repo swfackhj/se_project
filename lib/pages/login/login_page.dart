@@ -55,6 +55,8 @@ class LogInPage extends StatelessWidget {
                       logInController.signInWithEmail(
                           logInController.emailController.text,
                           logInController.passwordController.text);
+                      logInController.emailController.clear();
+                      logInController.passwordController.clear();
                     },
                     child: Container(
                         alignment: Alignment.center,
@@ -71,6 +73,8 @@ class LogInPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      logInController.emailController.clear();
+                      logInController.passwordController.clear();
                       Get.to(() => SignUpPage());
                     },
                     child: Container(
