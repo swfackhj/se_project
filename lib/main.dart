@@ -45,32 +45,35 @@ class _MyAppState extends State<MyApp> {
         home: StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data!.emailVerified ||
-            snapshot.data?.uid == 'Lxkv8v3zhcar4wXC6UEM6B1O6I42') {
-          return Scaffold(
-            body: pages.elementAt(selectedPage),
-            bottomNavigationBar: BottomNavigationBar(
-                onTap: (value) {
-                  setState(() {
-                    selectedPage = value;
-                  });
-                },
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.black,
-                selectedItemColor: Colors.white,
-                unselectedItemColor: Colors.white,
-                items: const [
-                  BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.people), label: '용병'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.sports_soccer), label: '매치'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.emoji_events), label: '랭킹'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.settings), label: '설정'),
-                ]),
-          );
+        if (snapshot.hasData) {
+          if (snapshot.data!.emailVerified) {
+            return Scaffold(
+              body: pages.elementAt(selectedPage),
+              bottomNavigationBar: BottomNavigationBar(
+                  onTap: (value) {
+                    setState(() {
+                      selectedPage = value;
+                    });
+                  },
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.black,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.white,
+                  items: const [
+                    BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.people), label: '용병'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.sports_soccer), label: '매치'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.emoji_events), label: '랭킹'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.settings), label: '설정'),
+                  ]),
+            );
+          } else {
+            return LogInPage();
+          }
         } else {
           return LogInPage();
         }

@@ -31,17 +31,19 @@ class SignUpController extends GetxController {
               password: passwordController.text)
           .then((userCredential) {
         final user = UserModel(
-            eamil: emailController.text,
+            email: emailController.text,
             password: passwordController.text,
             name: nameController.text,
             gender: gender,
             club: club,
-            emailVerified: 'false');
+            emailVerified: 'false',
+            uid: userCredential.user!.uid);
         FirebaseFirestore.instance
             .collection('user')
             .doc(userCredential.user?.uid)
             .set(user.toJson());
         FirebaseAuth.instance.currentUser?.sendEmailVerification();
+        Get.back();
       });
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
